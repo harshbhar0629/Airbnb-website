@@ -73,11 +73,15 @@
 			</div>
 			<% } %>
 		</div>
-
+		
 		<!-- create review form -->
 		<div
 			class="col-lg-8 col-10 offset-md-2 offset-sm-1 mt-4"
 			style="margin: 0 auto">
+			<% if (!currUser) { %>
+				<hr/>
+			 <h4 style="font-size: 1.8em; font-weight: 600">Please login to add a Review <a style="font-size: 1.4rem; margin-left: 10px;" href="/login">Login</a></h4>
+			<% } %>
 			<% if(currUser) { %>
 			<hr />
 			<h4 style="font-size: 1.8em; font-weight: 600">Leave a Review</h4>
