@@ -1,0 +1,12 @@
+<!-- @format -->
+
+<% if (error && error.length) { %>
+<div
+	class="alert alert-danger alert-dismissible fade show col-md-8 col-sm-9 col-10"
+	role="alert"
+    style="text-align: center; font-size: 1.2rem; font-weight: 600; margin: 0px auto;"
+    >
+	<%= error %>
+    <button type="button" data-bs-dismiss="alert" aria-label="Close" class="btn-close"></button>
+</div>
+<% } %>

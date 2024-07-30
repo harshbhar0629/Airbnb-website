@@ -1,0 +1,12 @@
+<!-- @format -->
+
+<% layout('/layouts/boilerplate') %>
+
+<div class="row flex handleError">
+	<div
+		class="alert alert-danger col-md-6 col-sm-8 col-10"
+		role="alert">
+		<span><%= error.stausCode %></span>
+		<span><%= error.message %></span>
+	</div>
+</div>

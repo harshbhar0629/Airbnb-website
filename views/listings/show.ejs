@@ -1,0 +1,235 @@
+<!-- @format -->
+
+<% layout('/layouts/boilerplate') %>
+
+<body>
+	<h3
+		style="
+			font-size: 2rem;
+			font-weight: 700;
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		">
+		<i><%= data.title %></i>
+	</h3>
+
+	<div class="row mt-3">
+		<div
+			class="col-lg-8 col-10 offset-md-2"
+			style="margin: 0 auto">
+			<div
+				class="card show-card col-10 col-lg-8 offset-md-2"
+				style="margin: 0 auto">
+				<img
+					class="card-img-top show-img"
+					src="<%=data.image.url%>"
+					alt="Listing Image" />
+				<div class="card-body">
+					<p
+						class="card-text"
+						style="color: rgb(37, 37, 37); font-size: 1rem">
+						<span class="show-details">Owned by:</span>
+						<strong><%= data.owner.username %></strong> <br />
+						<span class="show-details">Description: </span>
+						<%= data.description %> <br />
+						<span class="show-details">Charge: </span>
+						₹<%= data.price.toLocaleString("en-IN") %>/Day <br />
+						<span class="show-details">Location: </span>
+						<%= data.location %> <br />
+						<span class="show-details">Country: </span>
+						<%= data.country %>
+					</p>
+				</div>
+			</div>
+
+			<% if (currUser && data.owner._id.equals(currUser._id)) { %>
+
+			<div
+				class="col-lg-8 col-10 offset-md-2"
+				style="
+					margin: 0px auto;
+					display: flex;
+					justify-content: space-around;
+					align-items: center;
+					flex-wrap: wrap;
+				">
+				<a
+					class="btn btn-info"
+					style="font-weight: 500"
+					href="/listings/<%=data._id%>/edit"
+					>Edit this listing</a
+				>
+				<br /><br />
+				<form
+					action="/listings/<%=data._id%>?_method=delete"
+					method="post">
+					<button
+						class="btn btn-danger"
+						style="font-weight: 500">
+						Delete this listing
+					</button>
+				</form>
+			</div>
+			<% } %>
+		</div>
+
+		<!-- create review form -->
+		<div
+			class="col-lg-8 col-10 offset-md-2 offset-sm-1 mt-4"
+			style="margin: 0 auto">
+			<% if(currUser) { %>
+			<hr />
+			<h4 style="font-size: 1.8em; font-weight: 600">Leave a Review</h4>
+			<form
+				action="/listings/<%=data._id%>/reviews"
+				novalidate
+				method="post"
+				class="needs-validation">
+				<div class="review-rating">
+					<label
+						class="form-label"
+						for="rating"
+						style="font-size: 1.2rem; margin-bottom: 25px"
+						>Rating</label
+					>
+					<fieldset class="starability-slot">
+						<input
+							type="radio"
+							id="no-rate"
+							class="input-no-rate"
+							name="review[rating]"
+							value="0"
+							aria-label="No rating." />
+						<input
+							type="radio"
+							id="first-rate1"
+							name="review[rating]"
+							checked
+							value="1" />
+						<label
+							for="first-rate1"
+							title="Terrible"
+							>1 star</label
+						>
+						<input
+							type="radio"
+							id="first-rate2"
+							name="review[rating]"
+							value="2" />
+						<label
+							for="first-rate2"
+							title="Not good"
+							>2 stars</label
+						>
+						<input
+							type="radio"
+							id="first-rate3"
+							name="review[rating]"
+							value="3" />
+						<label
+							for="first-rate3"
+							title="Average"
+							>3 stars</label
+						>
+						<input
+							type="radio"
+							id="first-rate4"
+							name="review[rating]"
+							value="4" />
+						<label
+							for="first-rate4"
+							title="Very good"
+							>4 stars</label
+						>
+						<input
+							type="radio"
+							id="first-rate5"
+							name="review[rating]"
+							value="5" />
+						<label
+							for="first-rate5"
+							title="Amazing"
+							>5 stars</label
+						>
+					</fieldset>
+				</div>
+
+				<div>
+					<label
+						style="font-size: 1rem; font-weight: 500"
+						for="comment"
+						class="form-label"
+						>Enter Comment:</label
+					>
+					<textarea
+						class="form-control"
+						required
+						type="text"
+						id="comment"
+						placeholder="Enter comment.."
+						name="review[comment]"
+						rows="5"
+						cols="20"></textarea>
+					<div class="valid-feedback">Comment Looks good!</div>
+					<div class="invalid-feedback">Please add comment for review!</div>
+				</div>
+				<button class="btn btn-outline-dark mt-3 mb-5">Submit</button>
+			</form>
+			<% } %> <% if (data.reviews.length) { %>
+			<hr />
+			<h4
+				style="
+					margin: 2rem 0px;
+					text-align: center;
+					font-size: 1.8rem;
+					font-weight: 600;
+				">
+				All Reviews
+			</h4>
+			<% } %>
+
+			<div class="row review">
+				<% for( let review of data.reviews ) { %>
+				<div class="card review-card col-sm-10 col-11">
+					<div class="card-body">
+						<div
+							class="card-title"
+							style="
+								font-weight: 700;
+								font-size: 1rem;
+								display: flex;
+								gap: 5px;
+								justify-content: flex-start;
+								align-items: center;
+								flex-wrap: wrap;
+							">
+							@ <%= review.author.username %>
+
+							<p
+								class="starability-result card-text"
+								data-rating="<%= review.rating %>"></p>
+						</div>
+						<div class="card-text"><%=review.comment%></div>
+					</div>
+					<form
+						action="/listings/<%=data._id%>/reviews/<%=review._id%>?_method=Delete"
+						method="post"
+						style="
+							display: flex;
+							align-items: center;
+							justify-content: flex-end;
+							flex-wrap: wrap;
+						">
+						<button
+							class="btn btn-sm btn-outline-danger"
+							style="margin: 1rem">
+							Delete
+						</button>
+					</form>
+				</div>
+				<% } %>
+			</div>
+		</div>
+	</div>
+</body>
