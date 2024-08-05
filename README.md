@@ -28,5 +28,3 @@ This is my first major project, also be a great project.
 
 <h3>To install all apckages used " (npm i otherwise npm install) "</h3>
 <h3>If you got any error during installation of packages try this command: "npm install --legacy-peers-deps"</h3>
-
-<h3>Must visit My-Aribnb-Webiste: "https://airbnb-website-3akl.onrender.com/"</h3>
